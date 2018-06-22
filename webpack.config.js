@@ -39,6 +39,12 @@ const reactConfig = {
 				test: /\.css$/,
 				use: ['style-loader', 'css-loader'],
 			},
+			{
+				test: /\.png$/,
+				use: {
+					loader: 'url-loader',
+				},
+			},
 		],
 	},
 	plugins: [htmlPlugin],

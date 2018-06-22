@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
-const Test = styled.div`
-	width: 100px;
-	height: 100px;
-	background-color: purple;
-`;
+import Header from './components/Header';
 
 class App extends Component {
 	constructor(props) {
@@ -14,7 +10,11 @@ class App extends Component {
 	}
 
 	render() {
-		return <Test />;
+		return (
+			<div>
+				<Header />
+			</div>
+		);
 	}
 }
 
