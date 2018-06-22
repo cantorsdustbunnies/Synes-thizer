@@ -35,6 +35,10 @@ const reactConfig = {
 					loader: 'babel-loader',
 				},
 			},
+			{
+				test: /\.css$/,
+				use: ['style-loader', 'css-loader'],
+			},
 		],
 	},
 	plugins: [htmlPlugin],
