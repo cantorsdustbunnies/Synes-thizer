@@ -1,8 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import App from './options_page/App';
 
-const Index = () => {
-	return <div style={{ height: 300, width: 200, backgroundColor: 'red' }}> I'm a react app </div>;
-};
-
-ReactDOM.render(<Index />, document.getElementById('App'))();
+ReactDOM.render(<App />, document.getElementById('App'))();

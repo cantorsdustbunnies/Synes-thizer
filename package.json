@@ -4,7 +4,8 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"start": "webpack-dev-server --mode development --open",
+		"start": "webpack --mode development",
+		"start:dev": "webpack-dev-server --mode development --open --hot",
 		"build": "webpack --mode production"
 	},
 	"keywords": [],
@@ -23,6 +24,7 @@
 	},
 	"dependencies": {
 		"react": "^16.4.1",
-		"react-dom": "^16.4.1"
+		"react-dom": "^16.4.1",
+		"styled-components": "^3.3.3"
 	}
 }
