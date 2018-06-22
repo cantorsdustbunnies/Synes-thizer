@@ -17,7 +17,7 @@ const copyPlugin = new CopyWebpackPlugin([
 
 const htmlPlugin = new HtmlWebPackPlugin({
 	template: './src/index.html',
-	filename: './index.html',
+	filename: path.join(__dirname, './index.html'),
 });
 
 const reactConfig = {
@@ -46,7 +46,8 @@ const reactConfig = {
 	devServer: {
 		contentBase: path.join(__dirname, 'build'),
 		compress: true,
-		port: 8080,
+		port: 9000,
+		hot: true,
 	},
 };
 
