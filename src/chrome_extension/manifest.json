@@ -1,0 +1,19 @@
+{
+	"manifest_version": 2,
+	"name": "Synesthizer",
+	"version": "0.0.1",
+	"permissions": ["storage"],
+	"browser_action": {
+		"default_icon": "images/S.png"
+	},
+	"content_scripts": [
+		{
+			"js": ["content.js"],
+			"matches": ["<all_urls>"]
+		}
+	],
+	"background": {
+		"scripts": ["background.js"]
+	},
+	"options_page": "index.html"
+}
