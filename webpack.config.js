@@ -39,6 +39,11 @@ const reactConfig = {
 	},
 	plugins: [htmlPlugin],
 	devtool: 'cheap-module-source-map',
+	devServer: {
+		contentBase: path.join(__dirname, 'build'),
+		compress: true,
+		port: 8080,
+	},
 };
 
 const chromeScriptConfig = {
