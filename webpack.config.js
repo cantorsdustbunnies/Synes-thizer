@@ -17,7 +17,7 @@ const copyPlugin = new CopyWebpackPlugin([
 
 const htmlPlugin = new HtmlWebPackPlugin({
 	template: './src/index.html',
-	filename: path.join(__dirname, './index.html'),
+	filename: path.join(__dirname + '/build', './index.html'),
 });
 
 const reactConfig = {
@@ -50,7 +50,6 @@ const reactConfig = {
 	plugins: [htmlPlugin],
 	devtool: 'cheap-module-source-map',
 	devServer: {
-		contentBase: path.join(__dirname, 'build'),
 		compress: true,
 		port: 9000,
 		hot: true,
@@ -64,7 +63,7 @@ const chromeScriptConfig = {
 	},
 	output: {
 		filename: '[name].js',
-		path: __dirname + '/build',
+		path: path.resolve(__dirname + '/build'),
 	},
 	module: {
 		rules: [
