@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { Component } from 'react';
+
 import styled from 'styled-components';
 import Card from './Card';
 import Grid from '../Grid';
@@ -34,28 +35,40 @@ const NewTheme = styled.button`
     border: 1px solid white; 
 `;
 
-export default () => {
-	return (
-		<OptionsWrapper>
-			<Card title="Current Theme">
-				<Selector>
-					<option> Fisher Price </option>
-					<option> Unstyled </option>
-				</Selector>
-			</Card>
-			<Card title="Graphemes">
-				<Grid />
-				<NewTheme> Create New </NewTheme>
-			</Card>
+class OptionBar extends Component {
+	constructor(props) {
+		super(props);
+	}
 
-			<Card title="Allow app to change the background color on pages I visit">
-				<input type="checkbox" />
-			</Card>
-			<Card title="Background Color">
-				<ColorPickerWrapper>
-					<ColorPickerColor />
-				</ColorPickerWrapper>
-			</Card>
-		</OptionsWrapper>
-	);
-};
+	populateOptions() {
+		const { defaultThemes, userThemes, selectedTheme } = this.props.options;
+		const options = [...defaultThemes, ...userThemes];
+		return options.map(theme => <option key={theme.name}>{theme.name}</option>);
+	}
+
+	render() {
+		console.log(this.props.options.selectedTheme);
+		return (
+			<OptionsWrapper>
+				<Card title="Current Theme">
+					<Selector onChange={e => this.props.onThemeChange(e)}>{this.populateOptions()}</Selector>
+				</Card>
+				<Card title="Graphemes">
+					<Grid />
+					<NewTheme> Create New </NewTheme>
+				</Card>
+
+				<Card title="Allow app to change the background color on pages I visit">
+					<input type="checkbox" />
+				</Card>
+				<Card title="Background Color">
+					<ColorPickerWrapper>
+						<ColorPickerColor />
+					</ColorPickerWrapper>
+				</Card>
+			</OptionsWrapper>
+		);
+	}
+}
+
+export default OptionBar;
