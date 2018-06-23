@@ -76,6 +76,7 @@ const chromeScriptConfig = {
 			},
 		],
 	},
+	devtool: 'cheap-module-source-map',
 	plugins: [copyPlugin],
 };
 
