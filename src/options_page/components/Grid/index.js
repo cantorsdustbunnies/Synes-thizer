@@ -7,15 +7,18 @@ const GridWrapper = styled.div`
 	max-height: 350px;
 `;
 
-const GridItem = styled.div`
-    color: ${props => props.color || 'black'} 
-    background-color: ${props => props.background || 'white'}
-    width: 40px; 
-    height: 40px;  
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    margin: 1.25px; 
+const GridItem = styled.div.attrs({
+	color: props => props.color || 'white',
+	background: props => props.background || 'black',
+})`
+	width: 40px;
+	height: 40px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 1.25px;
+	color: ${props => props.color};
+	background-color: ${props => props.backgroundColor};
 `;
 
 const defaultGraphemes = 'abcdefghijklmnopqrstuvwxyz0123456789'.split('');
@@ -25,24 +28,39 @@ class Grid extends Component {
 		super(props);
 		this.state = {
 			selected: '',
-			graphemes: props.graphemes || defaultGraphemes,
+			graphemes: props.graphemes,
+			theme: props.theme,
 		};
+	}
+
+	componentWillReceiveProps(newProps) {
+		this.setState({
+			graphemes: newProps.graphemes,
+			theme: newProps.theme,
+		});
 	}
 
 	createGridItems() {
 		const { graphemes } = this.state;
+		const { theme } = this.props;
+		return graphemes.map(grapheme => (
+			<GridItem key={grapheme} color={this.getColor(grapheme)}>
+				{grapheme.match(/[a-z]/) ? `${grapheme.toUpperCase()}${grapheme}` : grapheme}
+			</GridItem>
+		));
+	}
 
-		return graphemes.map(
-			grapheme =>
-				grapheme.match(/[a-z]/) ? (
-					<GridItem key={grapheme}>
-						{grapheme.toUpperCase()}
-						{grapheme}
-					</GridItem>
-				) : (
-					<GridItem key={grapheme}> {grapheme} </GridItem>
-				)
-		);
+	parseThemeColor(colorObj) {
+		return `rgba(${colorObj.r}, ${colorObj.g}, ${colorObj.b}, ${colorObj.a})`;
+	}
+
+	getColor(grapheme) {
+		const { theme } = this.state;
+		if (theme.data) {
+			return this.parseThemeColor(theme.data[grapheme]);
+		} else {
+			return 'black';
+		}
 	}
 
 	render() {

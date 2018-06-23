@@ -47,14 +47,13 @@ class OptionBar extends Component {
 	}
 
 	render() {
-		console.log(this.props.options.selectedTheme);
 		return (
 			<OptionsWrapper>
 				<Card title="Current Theme">
 					<Selector onChange={e => this.props.onThemeChange(e)}>{this.populateOptions()}</Selector>
 				</Card>
 				<Card title="Graphemes">
-					<Grid />
+					<Grid theme={this.props.options.selectedTheme} graphemes={this.props.options.defaultGraphemes} />
 					<NewTheme> Create New </NewTheme>
 				</Card>
 
