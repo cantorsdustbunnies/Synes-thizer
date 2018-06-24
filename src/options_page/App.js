@@ -1,13 +1,11 @@
 /* global chrome */
 
 import React, { Component } from 'react';
-import styled from 'styled-components';
-
 import default_state from '../chrome_extension/state';
 
 import Header from './components/Header';
+import Main from './components/Main';
 import OptionBar from './components/OptionBar';
-
 class App extends Component {
 	constructor(props) {
 		super(props);
@@ -19,6 +17,8 @@ class App extends Component {
 			selectedTheme: {},
 			userGraphemes: '',
 			userThemes: [],
+			editorOpen: false,
+			themeTitle: '',
 		};
 	}
 
@@ -69,15 +69,21 @@ class App extends Component {
 		}
 	}
 
-	onEditableChange(e) {
+	toggleEditor() {
 		this.setState({
-			allowBackgroundEdit: !this.state.allowBackgroundEdit,
+			editorOpen: !this.state.editorOpen,
 		});
 	}
 
 	onThemeChange(e) {
 		this.setState({
 			selectedTheme: this.getTheme(e.target.value),
+		});
+	}
+
+	setEditorTitle(e) {
+		this.setState({
+			themeTitle: e.target.value,
 		});
 	}
 
@@ -96,9 +102,16 @@ class App extends Component {
 			<div>
 				<Header />
 				<OptionBar
-					onEditableChange={this.onEditableChange.bind(this)}
+					toggleEditor={this.toggleEditor.bind(this)}
 					onThemeChange={this.onThemeChange.bind(this)}
 					options={this.state}
+					onEditorTitleChange={this.setEditorTitle.bind(this)}
+					editorTitle={this.state.themeTitle}
+				/>
+				<Main
+					editor={this.state.editorOpen}
+					theme={this.state.selectedTheme}
+					toggleEditor={this.toggleEditor.bind(this)}
 				/>
 			</div>
 		);

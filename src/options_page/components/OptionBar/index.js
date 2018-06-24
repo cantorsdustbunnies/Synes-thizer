@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import Card from './Card';
 import Grid from '../Grid';
 
@@ -28,17 +28,31 @@ let ColorPickerColor = styled.div`
 
 let Selector = styled.select``;
 
-const NewTheme = styled.button`
+const GoBtn = styled.button`
+	outline: none;
+	border: 1px solid blue;
+	background-color: inherit;
+	:hover {
+		background-color: white;
+	}
+`;
+
+const NewThemeBtn = styled.button`
     width: 100% 
     margin-top: 20px; 
     background-color: inherit; 
     color: white; 
-    border: 1px solid white; 
+	border: 1px solid white;
+	outline: none;  
 `;
 
 class OptionBar extends Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			newTheme: false,
+			editorTitle: '',
+		};
 	}
 
 	populateOptions() {
@@ -54,6 +68,13 @@ class OptionBar extends Component {
 		}
 	}
 
+	toggleNewTheme() {
+		this.setState({
+			newTheme: !this.state.newTheme,
+		});
+		this.props.toggleEditor();
+	}
+
 	render() {
 		const { allowBackgroundEdit } = this.props.options;
 		return (
@@ -64,7 +85,9 @@ class OptionBar extends Component {
 
 				<Card title="Graphemes">
 					<Grid theme={this.props.options.selectedTheme} graphemes={this.props.options.defaultGraphemes} />
-					<NewTheme> Create New </NewTheme>
+					<NewThemeBtn onClick={() => this.toggleNewTheme()}>
+						{this.state.newTheme ? 'Cancel' : 'Create New'}
+					</NewThemeBtn>
 				</Card>
 
 				<Card title="Allow app to change the background color on pages I visit">
