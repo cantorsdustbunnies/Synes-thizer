@@ -69,6 +69,12 @@ class App extends Component {
 		}
 	}
 
+	onEditableChange(e) {
+		this.setState({
+			allowBackgroundEdit: !this.state.allowBackgroundEdit,
+		});
+	}
+
 	onThemeChange(e) {
 		this.setState({
 			selectedTheme: this.getTheme(e.target.value),
@@ -89,7 +95,11 @@ class App extends Component {
 		return (
 			<div>
 				<Header />
-				<OptionBar onThemeChange={this.onThemeChange.bind(this)} options={this.state} />
+				<OptionBar
+					onEditableChange={this.onEditableChange.bind(this)}
+					onThemeChange={this.onThemeChange.bind(this)}
+					options={this.state}
+				/>
 			</div>
 		);
 	}

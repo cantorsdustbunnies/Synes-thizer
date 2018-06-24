@@ -9,6 +9,7 @@ let OptionsWrapper = styled.div`
 	height: calc(100vh - 56px);
 	background-color: #232323;
 	padding-top: 20px;
+	color: white;
 `;
 
 let ColorPickerWrapper = styled.div`
@@ -46,21 +47,31 @@ class OptionBar extends Component {
 		return options.map(theme => <option key={theme.name}>{theme.name}</option>);
 	}
 
+	renderColorPickerCard() {
+		const { allowBackgroundEdit } = this.props.options;
+		if (allowBackgroundEdit) {
+			return;
+		}
+	}
+
 	render() {
+		const { allowBackgroundEdit } = this.props.options;
 		return (
 			<OptionsWrapper>
 				<Card title="Current Theme">
 					<Selector onChange={e => this.props.onThemeChange(e)}>{this.populateOptions()}</Selector>
 				</Card>
+
 				<Card title="Graphemes">
 					<Grid theme={this.props.options.selectedTheme} graphemes={this.props.options.defaultGraphemes} />
 					<NewTheme> Create New </NewTheme>
 				</Card>
 
 				<Card title="Allow app to change the background color on pages I visit">
-					<input type="checkbox" />
+					<input type="checkbox" onChange={e => this.props.onEditableChange(e)} />
 				</Card>
-				<Card title="Background Color">
+
+				<Card title="Background Color" editable={allowBackgroundEdit}>
 					<ColorPickerWrapper>
 						<ColorPickerColor />
 					</ColorPickerWrapper>

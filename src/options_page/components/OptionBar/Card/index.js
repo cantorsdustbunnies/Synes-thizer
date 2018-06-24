@@ -1,12 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const CardWrapper = styled.div`
+const CardWrapper = styled.div.attrs({
+	//editable
+	pointerEvents: props => (props.editable ? 'inherit' : 'none'),
+	opacity: props => (props.editable ? '1' : '.5'),
+})`
 	color: white;
 	width: 85%;
 	margin: 0 auto;
-	border-bottom: 1px dashed #f1f1f1a2;
 	padding-bottom: 20px;
+	opacity: ${props => props.opacity};
+	pointer-events: ${props => props.pointerEvents};
 `;
 
 const CardTitle = styled.p`
@@ -21,12 +26,22 @@ const Content = styled.div`
 	text-align: right;
 `;
 
-export default ({ title = 'test', children }) => {
-	return (
-		<CardWrapper>
-			<CardTitle> {title}: </CardTitle>
+const DashedLine = styled.div`
+	width: 85%;
+	margin: 0 auto;
+	height: 1px;
+	border-bottom: 1px dashed white;
+`;
 
-			<Content>{children}</Content>
-		</CardWrapper>
+export default ({ editable = true, title = 'test', children }) => {
+	return (
+		<React.Fragment>
+			<CardWrapper editable={editable}>
+				<CardTitle> {title}: </CardTitle>
+
+				<Content>{children}</Content>
+			</CardWrapper>
+			<DashedLine />
+		</React.Fragment>
 	);
 };
