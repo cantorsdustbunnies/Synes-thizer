@@ -18,7 +18,11 @@ const GridItem = styled.div.attrs({
 	align-items: center;
 	margin: 1.25px;
 	color: ${props => props.color};
-	background-color: ${props => props.backgroundColor};
+	background-color: ${props => props.background};
+	transition: background-color 0.65s;
+	:hover {
+		background-color: #ffffff82;
+	}
 `;
 
 const defaultGraphemes = 'abcdefghijklmnopqrstuvwxyz0123456789'.split('');
@@ -44,7 +48,7 @@ class Grid extends Component {
 		const { graphemes } = this.state;
 		const { theme } = this.props;
 		return graphemes.map(grapheme => (
-			<GridItem key={grapheme} color={this.getColor(grapheme)}>
+			<GridItem background="#f1f1f12a" key={grapheme} color={this.getColor(grapheme)}>
 				{grapheme.match(/[a-z]/) ? `${grapheme.toUpperCase()}${grapheme}` : grapheme}
 			</GridItem>
 		));

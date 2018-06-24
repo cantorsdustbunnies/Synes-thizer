@@ -97,6 +97,12 @@ class App extends Component {
 		}
 	}
 
+	toggleBGEdit() {
+		this.setState({
+			allowBackgroundEdit: !this.state.allowBackgroundEdit,
+		});
+	}
+
 	render() {
 		return (
 			<div>
@@ -107,6 +113,7 @@ class App extends Component {
 					options={this.state}
 					onEditorTitleChange={this.setEditorTitle.bind(this)}
 					editorTitle={this.state.themeTitle}
+					toggleBGEdit={this.toggleBGEdit.bind(this)}
 				/>
 				<Main
 					editor={this.state.editorOpen}

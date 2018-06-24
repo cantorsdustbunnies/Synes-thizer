@@ -28,14 +28,7 @@ let ColorPickerColor = styled.div`
 
 let Selector = styled.select``;
 
-const GoBtn = styled.button`
-	outline: none;
-	border: 1px solid blue;
-	background-color: inherit;
-	:hover {
-		background-color: white;
-	}
-`;
+
 
 const NewThemeBtn = styled.button`
     width: 100% 
@@ -61,19 +54,14 @@ class OptionBar extends Component {
 		return options.map(theme => <option key={theme.name}>{theme.name}</option>);
 	}
 
-	renderColorPickerCard() {
-		const { allowBackgroundEdit } = this.props.options;
-		if (allowBackgroundEdit) {
-			return;
-		}
-	}
-
 	toggleNewTheme() {
 		this.setState({
 			newTheme: !this.state.newTheme,
 		});
 		this.props.toggleEditor();
 	}
+
+
 
 	render() {
 		const { allowBackgroundEdit } = this.props.options;
@@ -91,7 +79,7 @@ class OptionBar extends Component {
 				</Card>
 
 				<Card title="Allow app to change the background color on pages I visit">
-					<input type="checkbox" onChange={e => this.props.onEditableChange(e)} />
+					<input type="checkbox" onChange={e => this.props.toggleBGEdit()} />
 				</Card>
 
 				<Card title="Background Color" editable={allowBackgroundEdit}>
