@@ -62,11 +62,20 @@ export default class ColorEditor extends Component {
 		};
 	}
 
-	componentWillReceiveProps(newProps) {
+	componentDidMount() {
 		this.setState({
-			originalColor: newProps.selectedColor,
-			color: newProps.selectedColor,
+			originalColor: this.props.selectedColor,
+			color: this.props.selectedColor,
 		});
+	}
+
+	componentWillReceiveProps(newProps) {
+		if (newProps.selectedColor) {
+			this.setState({
+				originalColor: newProps.selectedColor,
+				color: newProps.selectedColor,
+			});
+		}
 	}
 
 	setColor(color, e) {
@@ -74,8 +83,6 @@ export default class ColorEditor extends Component {
 			color: color.rgb,
 		});
 	}
-
-	setPickerColor(color, e) {}
 
 	revertColor() {
 		this.setState({
@@ -90,8 +97,7 @@ export default class ColorEditor extends Component {
 	}
 
 	render() {
-		console.log(this.state.color);
-		const { selectedColor, selectedGrapheme } = this.props;
+		const { selectedGrapheme } = this.props;
 		return (
 			<React.Fragment>
 				<Wrapper>
@@ -105,7 +111,7 @@ export default class ColorEditor extends Component {
 							: `${selectedGrapheme}`}
 					</Display>
 					<PickerWrapper>
-						<SketchPicker color={this.state.color} onChange={this.setColor.bind(this)} />
+						<SketchPicker color={this.props.selectedColor} onChange={this.setColor.bind(this)} />
 					</PickerWrapper>
 				</Wrapper>
 			</React.Fragment>

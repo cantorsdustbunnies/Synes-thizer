@@ -9,7 +9,10 @@ const Wrapper = styled.div`
 	width: 100%;
 	height: 100%;
 	box-sizing: border-box;
-	background-color: #232323;
+	background-color: ${props =>
+		props.background
+			? `rgba(${props.background.r},${props.background.g},${props.background.b},${props.background.a})`
+			: `rgba(255,255,255,1)`};
 	display: grid;
 	grid-template-areas:
 		'editor preview'
@@ -19,7 +22,6 @@ const Wrapper = styled.div`
 
 const EditorWrapper = styled.div`
 	grid-area: editor;
-	background-color: white;
 
 	padding: 40px;
 `;
@@ -50,13 +52,12 @@ const PreviewWrapper = styled.div`
 	overflow-y: auto;
 	width: 100%;
 	padding-right: 40px;
-	background-color: white;
 `;
 
 export default class Editor extends Component {
 	render() {
 		return (
-			<Wrapper>
+			<Wrapper background={this.props.backgroundColor}>
 				<EditorWrapper>
 					<ColorEditor selectedGrapheme={this.props.selected} selectedColor={this.props.selectedColor} />
 				</EditorWrapper>

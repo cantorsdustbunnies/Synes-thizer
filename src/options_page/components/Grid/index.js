@@ -13,20 +13,24 @@ const GridWrapper = styled.div`
 
 const GridItem = styled.div.attrs({
 	color: props => props.color || 'white',
-	background: props => props.background || 'black',
+	background: props => props.background || 'white',
 })`
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	color: ${props => props.color};
-	background-color: ${props => props.background};
+	background-color: ${props =>
+		props.background
+			? `rgba(${props.background.r},${props.background.g},${props.background.b},${props.background.a})`
+			: `rgba(255,255,255,1)`};
 	cursor: pointer;
+
 	border-radius: 50%;
 	:hover {
 		transition: background-color 0.4s, font-size 0.2s;
 		font-size: 150%;
 		transform: scale(2.4);
-		background-color: #00000055;
+		background-color: #66666655;
 	}
 	:active {
 		transition: background-color 0.1s, font-size 0.1s;
@@ -54,11 +58,12 @@ class Grid extends Component {
 	}
 
 	createGridItems() {
+		console.log(this.props.backgroundColor, 'this is what Grid things of your backgroundColor');
 		const { graphemes } = this.state;
 		console.log(this.props);
 		return graphemes.map(grapheme => (
 			<GridItem
-				background={this.props.selectedGrapheme === grapheme ? 'black' : 'inherit'}
+				background={this.props.selectedGrapheme === grapheme ? this.props.backgroundColor : 'inherit'}
 				key={grapheme}
 				color={this.getColor(grapheme)}
 				id={grapheme}

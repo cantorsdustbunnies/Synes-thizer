@@ -23,7 +23,7 @@ const default_state = {
 	user_themes: [],
 	user_graphemes: [],
 	allow_background_edit: false,
-	background_color: '#ffffffff',
+	background_color: { r: 255, g: 255, b: 255, a: 1 },
 };
 
 export default default_state;

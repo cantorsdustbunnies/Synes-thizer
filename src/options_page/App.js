@@ -11,7 +11,7 @@ class App extends Component {
 		super(props);
 		this.state = {
 			allowBackgroundEdit: null,
-			backgroundColor: '',
+			backgroundColor: { r: 255, g: 255, b: 255, a: 1 },
 			defaultGraphemes: [],
 			defaultThemes: [],
 			selectedTheme: {},
@@ -72,9 +72,19 @@ class App extends Component {
 	}
 
 	toggleEditor() {
-		this.setState({
-			editorOpen: !this.state.editorOpen,
-		});
+		if (this.state.editorOpen) {
+			this.setState({
+				selectedGrapheme: '',
+				editorOpen: !this.state.editorOpen,
+				selectedColor: null,
+			});
+		} else {
+			this.setState({
+				editorOpen: !this.state.editorOpen,
+				selectedGrapheme: 'a',
+				selectedColor: this.state.selectedTheme.data['a'],
+			});
+		}
 	}
 
 	onThemeChange(e) {
@@ -89,6 +99,12 @@ class App extends Component {
 		});
 	}
 
+	onBackgroundColorChange(color, e) {
+		this.setState({
+			backgroundColor: color.rgb,
+		});
+	}
+
 	getTheme(themeName) {
 		const { defaultThemes, userThemes } = this.state;
 		const themes = [...defaultThemes, ...userThemes];
@@ -100,6 +116,11 @@ class App extends Component {
 	}
 
 	toggleBGEdit() {
+		if (this.state.allowBackgroundEdit) {
+			this.setState({
+				backgroundColor: { r: 255, g: 255, b: 255, a: 1 },
+			});
+		}
 		this.setState({
 			allowBackgroundEdit: !this.state.allowBackgroundEdit,
 		});
@@ -124,6 +145,7 @@ class App extends Component {
 					editorTitle={this.state.themeTitle}
 					toggleBGEdit={this.toggleBGEdit.bind(this)}
 					selectGrapheme={this.selectGrapheme.bind(this)}
+					onBackgroundColorChange={this.onBackgroundColorChange.bind(this)}
 				/>
 				<Main
 					editor={this.state.editorOpen}
@@ -131,6 +153,7 @@ class App extends Component {
 					toggleEditor={this.toggleEditor.bind(this)}
 					selected={this.state.selectedGrapheme}
 					selectedColor={this.state.selectedColor}
+					backgroundColor={this.state.backgroundColor}
 				/>
 			</div>
 		);

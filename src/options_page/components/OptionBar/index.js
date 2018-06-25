@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-
+import Sketch from 'react-color';
 import styled, { keyframes } from 'styled-components';
+
 import Card from './Card';
 import Grid from '../Grid';
 
@@ -22,7 +23,10 @@ let ColorPickerWrapper = styled.div`
 let ColorPickerColor = styled.div`
 	width: 90px;
 	height: 15px;
-	background-color: white;
+	background-color: ${props =>
+		props.background
+			? `rgba(${props.background.r},${props.background.g},${props.background.b},${props.background.a})`
+			: `rgba(255,255,255,1)`};
 	margin: 5px;
 `;
 
@@ -37,12 +41,32 @@ const NewThemeBtn = styled.button`
 	outline: none;  
 `;
 
+const PopOver = styled.div`
+	position: absolute;
+	z-index: 2;
+`;
+
+const Cover = styled.div`
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+`;
+
+const PickerContainer = styled.div`
+	position: absolute;
+	bottom: calc(123.75px * 2 + 30px);
+	left: 260px;
+`;
+
 class OptionBar extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			newTheme: false,
 			editorTitle: '',
+			displayColorPicker: false,
 		};
 	}
 
@@ -59,8 +83,32 @@ class OptionBar extends Component {
 		this.props.toggleEditor();
 	}
 
+	togglePicker() {
+		this.setState({
+			displayColorPicker: !this.state.displayColorPicker,
+		});
+	}
+
+	handlePickerClose() {
+		this.setState({
+			displayColorPicker: false,
+		});
+	}
+
+	renderPicker() {
+		const { backgroundColor } = this.props.options.backgroundColor;
+		if (this.state.displayColorPicker) {
+			return (
+				<PopOver>
+					<Cover onClick={this.handlePickerClose.bind(this)} />
+					<Sketch color={backgroundColor} onChange={this.props.onBackgroundColorChange} />
+				</PopOver>
+			);
+		}
+	}
+
 	render() {
-		const { allowBackgroundEdit, editorOpen, selectedGrapheme } = this.props.options;
+		const { allowBackgroundEdit, editorOpen, selectedGrapheme, backgroundColor } = this.props.options;
 		return (
 			<OptionsWrapper>
 				<Card title="Current Theme">
@@ -74,6 +122,7 @@ class OptionBar extends Component {
 						editorActive={editorOpen}
 						selectGrapheme={this.props.selectGrapheme}
 						selectedGrapheme={selectedGrapheme}
+						backgroundColor={backgroundColor}
 					/>
 					<NewThemeBtn onClick={() => this.toggleNewTheme()}>
 						{this.state.newTheme ? 'Cancel' : 'Create New'}
@@ -86,7 +135,8 @@ class OptionBar extends Component {
 
 				<Card title="Background Color" editable={allowBackgroundEdit}>
 					<ColorPickerWrapper>
-						<ColorPickerColor />
+						<ColorPickerColor background={backgroundColor} onClick={() => this.togglePicker()} />
+						<PickerContainer>{this.renderPicker()}</PickerContainer>
 					</ColorPickerWrapper>
 				</Card>
 			</OptionsWrapper>

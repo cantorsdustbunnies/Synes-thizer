@@ -8,18 +8,24 @@ const MainWrapper = styled.div`
 	position: absolute;
 	top: 55px;
 	left: 298px;
-
+	background-color: ${props => props.background || 'white'}
 	box-sizing: border-box;
 	border-radius: 4px;
 `;
 
-export default ({ editor, theme, toggleEditor, selected, selectedColor }) => {
+export default ({ editor, theme, toggleEditor, selected, selectedColor, backgroundColor }) => {
 	return (
-		<MainWrapper>
+		<MainWrapper background={backgroundColor}>
 			{editor ? (
-				<Editor selected={selected} selectedColor={selectedColor} theme={theme} toggleEditor={toggleEditor} />
+				<Editor
+					backgroundColor={backgroundColor}
+					selected={selected}
+					selectedColor={selectedColor}
+					theme={theme}
+					toggleEditor={toggleEditor}
+				/>
 			) : (
-				<Introduction theme={theme} />
+				<Introduction theme={theme} backgroundColor={backgroundColor} />
 			)}
 		</MainWrapper>
 	);
