@@ -28,8 +28,6 @@ let ColorPickerColor = styled.div`
 
 let Selector = styled.select``;
 
-
-
 const NewThemeBtn = styled.button`
     width: 100% 
     margin-top: 20px; 
@@ -61,10 +59,8 @@ class OptionBar extends Component {
 		this.props.toggleEditor();
 	}
 
-
-
 	render() {
-		const { allowBackgroundEdit } = this.props.options;
+		const { allowBackgroundEdit, editorOpen, selectedGrapheme } = this.props.options;
 		return (
 			<OptionsWrapper>
 				<Card title="Current Theme">
@@ -72,7 +68,13 @@ class OptionBar extends Component {
 				</Card>
 
 				<Card title="Graphemes">
-					<Grid theme={this.props.options.selectedTheme} graphemes={this.props.options.defaultGraphemes} />
+					<Grid
+						theme={this.props.options.selectedTheme}
+						graphemes={this.props.options.defaultGraphemes}
+						editorActive={editorOpen}
+						selectGrapheme={this.props.selectGrapheme}
+						selectedGrapheme={selectedGrapheme}
+					/>
 					<NewThemeBtn onClick={() => this.toggleNewTheme()}>
 						{this.state.newTheme ? 'Cancel' : 'Create New'}
 					</NewThemeBtn>

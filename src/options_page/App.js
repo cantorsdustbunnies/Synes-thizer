@@ -19,6 +19,8 @@ class App extends Component {
 			userThemes: [],
 			editorOpen: false,
 			themeTitle: '',
+			selectedGrapheme: '',
+			selectedColor: null,
 		};
 	}
 
@@ -103,6 +105,13 @@ class App extends Component {
 		});
 	}
 
+	selectGrapheme(grapheme, color) {
+		this.setState({
+			selectedGrapheme: grapheme,
+			selectedColor: color,
+		});
+	}
+
 	render() {
 		return (
 			<div>
@@ -114,11 +123,14 @@ class App extends Component {
 					onEditorTitleChange={this.setEditorTitle.bind(this)}
 					editorTitle={this.state.themeTitle}
 					toggleBGEdit={this.toggleBGEdit.bind(this)}
+					selectGrapheme={this.selectGrapheme.bind(this)}
 				/>
 				<Main
 					editor={this.state.editorOpen}
 					theme={this.state.selectedTheme}
 					toggleEditor={this.toggleEditor.bind(this)}
+					selected={this.state.selectedGrapheme}
+					selectedColor={this.state.selectedColor}
 				/>
 			</div>
 		);

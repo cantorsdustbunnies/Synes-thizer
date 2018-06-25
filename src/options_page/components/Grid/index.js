@@ -2,30 +2,39 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 const GridWrapper = styled.div`
-	display: flex;
-	flex-wrap: wrap;
-	max-height: 350px;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+	width: 255px;
+	height: 255px;
+	grid-gap: 1px;
+	pointer-events: ${props => (props.editorActive ? 'auto' : 'none')};
 `;
 
 const GridItem = styled.div.attrs({
 	color: props => props.color || 'white',
 	background: props => props.background || 'black',
 })`
-	width: 40px;
-	height: 40px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	margin: 1.25px;
 	color: ${props => props.color};
 	background-color: ${props => props.background};
-	transition: background-color 0.65s;
+	cursor: pointer;
+	border-radius: 50%;
 	:hover {
-		background-color: #ffffff82;
+		transition: background-color 0.4s, font-size 0.2s;
+		font-size: 150%;
+		transform: scale(2.4);
+		background-color: #00000055;
+	}
+	:active {
+		transition: background-color 0.1s, font-size 0.1s;
+		font-size: inherit;
+		background-color: #00000055;
+		transform: scale(0.9);
 	}
 `;
-
-const defaultGraphemes = 'abcdefghijklmnopqrstuvwxyz0123456789'.split('');
 
 class Grid extends Component {
 	constructor(props) {
@@ -46,9 +55,15 @@ class Grid extends Component {
 
 	createGridItems() {
 		const { graphemes } = this.state;
-		const { theme } = this.props;
+		console.log(this.props);
 		return graphemes.map(grapheme => (
-			<GridItem background="#f1f1f12a" key={grapheme} color={this.getColor(grapheme)}>
+			<GridItem
+				background={this.props.selectedGrapheme === grapheme ? 'black' : 'inherit'}
+				key={grapheme}
+				color={this.getColor(grapheme)}
+				id={grapheme}
+				onClick={() => this.props.selectGrapheme(grapheme, this.getColor(grapheme))}
+			>
 				{grapheme.match(/[a-z]/) ? `${grapheme.toUpperCase()}${grapheme}` : grapheme}
 			</GridItem>
 		));
@@ -68,7 +83,7 @@ class Grid extends Component {
 	}
 
 	render() {
-		return <GridWrapper>{this.createGridItems()}</GridWrapper>;
+		return <GridWrapper editorActive={this.props.editorActive}>{this.createGridItems()}</GridWrapper>;
 	}
 }
 
