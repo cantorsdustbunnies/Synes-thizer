@@ -1,6 +1,15 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { SketchPicker } from 'react-color';
+
+const getColor = color => {
+	if (typeof color === 'string') {
+		return color;
+	} else {
+		return `rgba(${color.r},${color.g},${color.b},${color.a})`;
+	}
+};
+
 const Wrapper = styled.div`
 	display: flex;
 	flex: 1;
@@ -15,7 +24,7 @@ const Display = styled.div`
 	justify-content: center;
 	align-items: center;
 	font-size: 8rem;
-	color: ${props => props.color};
+	color: ${props => getColor(props.color)};
 	height: 100%;
 `;
 
@@ -48,27 +57,37 @@ export default class ColorEditor extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			originalColor: '',
 			color: '',
 		};
 	}
 
 	componentWillReceiveProps(newProps) {
 		this.setState({
+			originalColor: newProps.selectedColor,
 			color: newProps.selectedColor,
 		});
 	}
 
 	setColor(color, e) {
 		this.setState({
-			color: this.rgbaToCss(color.rgb),
+			color: color.rgb,
 		});
 	}
 
-	rgbaToCss(color) {
-		return `rgba(${color.r},${color.g},${color.b},${color.a})`;
+	setPickerColor(color, e) {}
+
+	revertColor() {
+		this.setState({
+			color: this.state.originalColor,
+		});
 	}
 
-	setPickerColor(color, e) {}
+	saveColor() {
+		this.setState({
+			savedGraphemes: this.state.savedGraphemes.push({}),
+		});
+	}
 
 	render() {
 		console.log(this.state.color);
@@ -78,7 +97,7 @@ export default class ColorEditor extends Component {
 				<Wrapper>
 					<Display color={this.state.color}>
 						<IconWrapper>
-							<Icon> &#x238c; </Icon>
+							<Icon onClick={() => this.revertColor()}> &#x238c; </Icon>
 							<Icon> &#x2713; </Icon>
 						</IconWrapper>
 						{selectedGrapheme.match(/[a-z]/)
