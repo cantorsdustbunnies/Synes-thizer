@@ -48,16 +48,35 @@ export default class ColorEditor extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			color: 'red',
+			color: '',
 		};
 	}
 
+	componentWillReceiveProps(newProps) {
+		this.setState({
+			color: newProps.selectedColor,
+		});
+	}
+
+	setColor(color, e) {
+		this.setState({
+			color: this.rgbaToCss(color.rgb),
+		});
+	}
+
+	rgbaToCss(color) {
+		return `rgba(${color.r},${color.g},${color.b},${color.a})`;
+	}
+
+	setPickerColor(color, e) {}
+
 	render() {
+		console.log(this.state.color);
 		const { selectedColor, selectedGrapheme } = this.props;
 		return (
 			<React.Fragment>
 				<Wrapper>
-					<Display color={selectedColor}>
+					<Display color={this.state.color}>
 						<IconWrapper>
 							<Icon> &#x238c; </Icon>
 							<Icon> &#x2713; </Icon>
@@ -67,7 +86,7 @@ export default class ColorEditor extends Component {
 							: `${selectedGrapheme}`}
 					</Display>
 					<PickerWrapper>
-						<SketchPicker color={selectedColor ? selectedColor : 'white'} />
+						<SketchPicker color={this.state.color} onChange={this.setColor.bind(this)} />
 					</PickerWrapper>
 				</Wrapper>
 			</React.Fragment>
